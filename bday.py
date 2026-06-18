@@ -1,0 +1,20 @@
+import pygame
+pygame.init()
+screen = pygame.display.set_mode((800,800))
+pygame.display.set_caption = ("birthday card")
+image1 = pygame.image.load("background1.jpg")
+i1 = pygame.transform.scale(image1,(800,800))
+image2 = pygame.image.load("background2.jpg")
+i2 = pygame.transform.scale(image2,(800,800))
+image3 = pygame.image.load("background3.png")
+i3 = pygame.transform.scale(image3,(800,800))
+font1 = pygame.font.SysFont("Times New Roman",72)
+font2 = pygame.font.SysFont("Arial",36)
+running = True
+while running:
+    screen.blit(i1,(0,0))
+    t1 = font1.render("Happy",True,(0,0,0))
+    screen.blit(t1,(210,180))
+    screen.blit(i2,(0,0))
+    t2 = font1.render("Birthday",True,(0,0,0))
+    screen.blit(t2,(213,180))
