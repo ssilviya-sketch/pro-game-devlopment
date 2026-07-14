@@ -10,10 +10,14 @@ background = pygame.image.load(path2)
 rocketx = 400
 rockety = 400
 keys = [False,False,False,False]
+gameover = pygame.USEREVENT+1
+game_over = False
 while rockety < 800:
     screen.blit(background,(0,0))
     screen.blit(i1,(rocketx,rockety))
     pygame.display.flip()
+    if rockety > 800:
+        pygame.event.post(pygame.event.Event(gameover))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -35,6 +39,9 @@ while rockety < 800:
                 keys[2] = False
             elif event.key == pygame.K_RIGHT:
                 keys[3] = False
+        elif event.type == gameover:
+            game_over = True
+
     if keys[0]:
         if rockety > 0:
             rockety -= 10  
@@ -48,5 +55,9 @@ while rockety < 800:
         if rocketx < 800:
             rocketx += 10
     rockety+=5
-    time.sleep(1)
-print("game over")
+    if game_over:
+        font = pygame.font.SysFont("Times New Roman",72)
+        t = font.render("game over",True,(45,243,233))
+        screen.blit(t,(210,180))
+        
+pygame.quit()
