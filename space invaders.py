@@ -16,13 +16,13 @@ space_ship_width = 55
 space_ship_height = 40
 path1 = os.path.join("images","spaceship_red.png")
 path2 = os.path.join("images","spaceship_yellow.png")
-path3 = os.path.join("images","copy of space.png")
+path3 = os.path.join("images","copy_of_space.png")
 image1 = pygame.image.load(path1)
-i1 = pygame.transform.scale(space_ship_height,space_ship_width)
+i1 = pygame.transform.scale(image1,(space_ship_width,space_ship_height))
 image2 = pygame.image.load(path2)
-i2 = pygame.transform.scale(space_ship_height,space_ship_width)
+i2 = pygame.transform.scale(image2,(space_ship_width,space_ship_height))
 image3 = pygame.image.load(path3)
-i3 = pygame.transform.scale(800,800)
+i3 = pygame.transform.scale(image3,(800,800))
 yellow_spaceship = pygame.transform.rotate(i1,90)
 red_spaceship = pygame.transform.rotate(i2,270)
 border = pygame.Rect(395,0,10,800)
@@ -49,7 +49,7 @@ def yellow_movement(keypress,yellow):
     if keypress[pygame.K_w]and yellow.y-vel > 0:
         yellow.y-=vel
     if keypress[pygame.K_s]and yellow.y+vel+yellow.height < 785:
-        yellow+=vel
+        yellow.y+=vel
 def red_movement(keypress,red):
     if keypress[pygame.K_LEFT]and red.x-vel > border.x+border.width:
         red.x-=vel
@@ -74,6 +74,58 @@ def handeling_bullets(yellow_bullets,red_bullets,yellow,red):
             red_bullets.remove(bullet)
         elif bullet.x < 0:
             red_bullets.remove(bullet)
+def draw_winner(text):
+    font = pygame.font.SysFont("Ariel",36)
+    t = font.render(text,1,black)
+    screen.blit(t,(400,400))
+    pygame.display.update()
+    pygame.time.delay(5000)
+def main():
+    red = pygame.Rect(700,400,space_ship_width,space_ship_height)
+    yellow = pygame.Rect(100,400,space_ship_width,space_ship_height)
+    red_bullets = []
+    yellow_bullets = []
+    red_health = 10
+    yellow_health = 10
+    clock = pygame.time.Clock()
+    running = True
+    while running:
+        clock.tick(fps)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_e and len(yellow_bullets) < max_bull:
+                    bullet = pygame.Rect(yellow.x+yellow.width,yellow.y+yellow.height//2-2,10,5)
+                    yellow_bullets.append(bullet)
+                if event.key == pygame.K_l and len(red_bullets) < max_bull:
+                    bullet = pygame.Rect(red.x,red.y+red.height//2-2,10,5)
+                    red_bullets.append(bullet)
+            if event.type == redhit:
+                red_health-=1
+            if event.type == yellowhit:
+                yellow_health-=1
+        winnertext = ""
+        if red_health <= 0:
+            winnertext = "yellow wins"
+        if yellow_health <= 0:
+            winnertext = "red wins"
+        if winnertext != "":
+            draw_winner(winnertext)
+            break
+        keypress = pygame.key.get_pressed()
+        red_movement(keypress,red)
+        yellow_movement(keypress,yellow)
+        handeling_bullets(yellow_bullets,red_bullets,yellow,red)
+        draw_window(red,yellow,red_bullets,yellow_bullets,red_health,yellow_health)
+    main()
+if __name__ == "__main__":
+    main()
+    #the definition of this function is to call the main function as soon as we start the game
+
+
+
 
 
 
