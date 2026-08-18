@@ -29,11 +29,11 @@ border = pygame.Rect(395,0,10,800)
 def draw_window(red,yellow,red_bullets,yellow_bullets,red_health,yellow_health):
     screen.blit(i3,(0,0))
     pygame.draw.rect(screen,(0,0,0),border)
-    font = pygame.font.SysFont("Times New Roman",10)
-    health1 = font.render("health"+str(yellow_health),True,(0,0,255))
+    font = pygame.font.SysFont("Times New Roman",30)
+    health1 = font.render("HEALTH:"+str(yellow_health),True,(255,255,255))
     screen.blit(health1,(50,50))
-    health2 = font.render("health"+str(red_health),True,(0,0,255))
-    screen.blit(health2,(700,50))
+    health2 = font.render("HEALTH:"+str(red_health),True,(255,255,255))
+    screen.blit(health2,(600,50))
     screen.blit(yellow_spaceship,(yellow.x,yellow.y))
     screen.blit(red_spaceship,(red.x,red.y))
     for bullet in yellow_bullets:
@@ -62,21 +62,21 @@ def red_movement(keypress,red):
 def handeling_bullets(yellow_bullets,red_bullets,yellow,red):
     for bullet in yellow_bullets:
         bullet.x+=bulvel
-        if red.collide(bullet):
+        if red.colliderect(bullet):
             pygame.event.post(pygame.event.Event(redhit))
             yellow_bullets.remove(bullet)
         elif bullet.x > 800:
             yellow_bullets.remove(bullet)
     for bullet in red_bullets:
         bullet.x-=bulvel
-        if yellow.collide(bullet):
+        if yellow.colliderect(bullet):
             pygame.event.post(pygame.event.Event(yellowhit))
             red_bullets.remove(bullet)
         elif bullet.x < 0:
             red_bullets.remove(bullet)
 def draw_winner(text):
-    font = pygame.font.SysFont("Ariel",36)
-    t = font.render(text,1,black)
+    font = pygame.font.SysFont("Ariel",88)
+    t = font.render(text,1,(255,255,255))
     screen.blit(t,(400,400))
     pygame.display.update()
     pygame.time.delay(5000)
@@ -108,9 +108,9 @@ def main():
                 yellow_health-=1
         winnertext = ""
         if red_health <= 0:
-            winnertext = "yellow wins"
-        if yellow_health <= 0:
             winnertext = "red wins"
+        if yellow_health <= 0:
+            winnertext = "yellowwins"
         if winnertext != "":
             draw_winner(winnertext)
             break
@@ -123,10 +123,3 @@ def main():
 if __name__ == "__main__":
     main()
     #the definition of this function is to call the main function as soon as we start the game
-
-
-
-
-
-
-
