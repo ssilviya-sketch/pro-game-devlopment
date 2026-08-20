@@ -12,7 +12,6 @@ image2 = pygame.image.load(path2)
 image3 = pygame.image.load(path3)
 image4 = pygame.image.load(path4)
 font = pygame.font.SysFont("Arial",36)
-running = True
 screen.blit(image1,(200,375))
 screen.blit(image2,(200,275))
 screen.blit(image3,(200,175))
@@ -21,13 +20,19 @@ t1 = font.render("templerun",True,(0,0,0))
 t2 = font.render("ludo",True,(0,0,0))
 t3 = font.render("candycrush",True,(0,0,0))
 t4 = font.render("subwaysurfer",True,(0,0,0))
-screen.blit(t1,(400,375))
-screen.blit(t2,(400,275))
-screen.blit(t3,(400,175))
-screen.blit(t4,(400,75))
+screen.blit(t1,(400,400))
+screen.blit(t2,(400,300))
+screen.blit(t3,(400,200))
+screen.blit(t4,(400,100))
 pygame.display.update()
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-pygame.quit()
+while 1:
+    event = pygame.event.poll()#poll retrieves 1 event at a time
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        pos = pygame.mouse.get_pos()
+        pygame.draw.circle(screen,(0,0,0),(pos),20,0)
+        pygame.display.update()
+    if event.type == pygame.MOUSEBUTTONUP:
+        pos2 = pygame.mouse.get_pos()
+        pygame.draw.line(screen,(0,0,0),(pos),(pos2),5)
+        pygame.draw.circle(screen,(0,0,0),(pos2),20,0)
+        pygame.display.update()
